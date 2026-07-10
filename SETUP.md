@@ -1,116 +1,73 @@
-# FlyRank ML Internship — Starter Repo
+# Setup — ten minutes, at two moments
 
-**Applied Search Intelligence: Google Search Ranking & Discoverability**
+You do **not** need everything on day one. There are exactly two setup moments in this track:
 
-This is the starting point for the FlyRank ML Internship. You **clone it into your own public
-repo** (one click — *Use this template*), build everything there, and submit that repo URL on
-each assignment in your portal — it's your workspace, your submission, and your portfolio all
-at once. The rhythm is simple: do the work, commit it, submit on the card. Done.
+| When | What | Time |
+|---|---|---|
+| Before Assignment 1 (Week 1) | GitHub + Colab | ~5 min |
+| Before Week 3 | Hugging Face data access | ~5 min |
 
-Everything here runs on a small **anonymized** slice of real FlyRank search data. No credentials,
-no private client data, no setup headaches.
-
-> **New here?** Two reads: **[SETUP.md](SETUP.md)** (GitHub, Colab, and data access — ten
-> minutes, with every silent pitfall flagged), then **[GUIDE.md](GUIDE.md)** (every file
-> explained, what to edit vs. leave alone, and where your own work goes — five minutes).
+Do each one right before you need it — with ONE exception worth doing on day one: create your free Hugging Face account and request access to the [internship warehouse dataset](https://huggingface.co/datasets/FlyRank/internship-warehouse) now. Approval is instant, and the data will already be waiting when Week 3 needs it (the token itself stays a Moment-2 job). Every step below includes the mistake that silently
+breaks it — read the ⚠️ lines even if you skip everything else.
 
 ---
 
-## Quickstart — first win in 2 minutes
+## Moment 1 — GitHub + Colab (before Assignment 1)
 
-The fastest path is Google Colab (one click, zero install). Open Notebook 1 and run all cells:
+1. **Create a GitHub account** (free) at [github.com/join](https://github.com/join) — skip if you have one.
+2. **Make your own copy of this repo** — one click, no git needed: on
+   [the starter repo page](https://github.com/flyrank-bih/flyrank-ml-internship-starter), press
+   **Use this template → Create a new repository** → public → any name → Create.
+   You now own a full copy: the notebooks, the pipeline, your `work/` folder, and the CI
+   leak-guard that keeps datasets out of git — all of it travels with you.
+   ⚠️ Don't create an empty repo by hand instead — an empty repo has no branch, and Colab's
+   *Save in GitHub* **silently does nothing** against it (the dialog just closes).
+3. **Open Notebook 01** with the Colab badge in the README. It runs in your browser; nothing
+   to install. (The badge opens the shared read-only notebook no matter whose README you
+   clicked it in — your work becomes yours at the save step below.)
+4. **Save your work**: *File → Save a copy in GitHub* → authorize Colab (pick the **same
+   account** that owns your copy) → in the Repository dropdown **switch to YOUR copy** (it
+   defaults to the shared repo, which you can't write to) → keep the suggested
+   `notebooks/...` path, branch `main` → OK. Colab opens the commit on GitHub — that's your
+   proof it worked.
+   ⚠️ Colab can only see repos of the GitHub account that authorized it. If your repo
+   "doesn't appear," you authorized a different account.
+5. **Also**: *File → Save a copy in Drive* — a personal backup so a closed tab never eats an
+   hour of work. Never submitted, just yours.
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/notebooks/01_first_look_and_discovery.ipynb)
- **Week 1 — Run it, then discover a real truth yourself**
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/notebooks/02_your_first_readable_model.ipynb)
- **Week 2 — The model is just a rule you can read**
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/flyrank-bih/flyrank-ml-internship-starter/blob/main/notebooks/03_working_with_the_full_release.ipynb)
- **Weeks 3+ — The full release (~79M rows) via DuckDB, no download needed** — hosted at
- [`FlyRank/internship-warehouse`](https://huggingface.co/datasets/FlyRank/internship-warehouse) (gated: request access + accept the data-use terms, approval is instant)
-
-### Prefer local?
-
-```bash
-git clone <this-repo-url>
-cd flyrank-ml-internship-starter
-pip install -r requirements.txt          # or: uv pip install -r requirements.txt
-python scripts/run_all.py
-```
-
-That runs the whole pipeline on the bundled sample and writes results to `outputs/`.
-
----
-
-## What you get
-
-| Path | What it is |
-|---|---|
-| `notebooks/` | Week 1–2 **first-win notebooks** (Colab-ready). Start here. |
-| `scripts/01–05` + `run_all.py` | The runnable reference pipeline: prepare → baseline → train → evaluate → PDF. |
-| `data/raw/content_refresh_anonymized.csv` | The anonymized starter dataset (~30k pages). |
-| `outputs/` | Example outputs so you can see the **target shape** (`model_report.md`, `refresh_queue_sample.csv`, `charts/`). |
-| `work/` | **Your space.** Lane experiments and your capstone live here — see `work/README.md`. |
-| `docs/` | The core docs + the data dictionary (see below). |
-
-### Read these (in `docs/`)
-
-1. **`ml-core-foundation-framework.md`** — the first-principles map of ML as a whole system. The backbone of the live sessions.
-2. **`ml-intern-dataset-and-lane-guide.md`** — how to use the data safely, the capstone workflow, and the analysis "lanes" you can pick from.
-3. **`intern-free-tooling-guide.md`** — the zero-budget tool stack (Python, Colab, free AI assistants). You never need to pay for anything.
-4. **`data-dictionary.md`** — all 44 columns: meaning, scale, and gotchas. Keep it open while you work.
+**✅ Done when:** the executed notebook shows up in your copy on github.com. That
+**`github.com/you/your-repo`** URL is your submission for Assignment 1 — never a
+`colab.research.google.com` or `drive.google.com` link.
 
 ---
 
-## The pipeline (what `run_all.py` does)
+## Moment 2 — Hugging Face data access (before Week 3)
 
-```text
-01_prepare_features.py   clean + build the feature vector, define the label
-02_baseline_score.py     a transparent hand-rule "fix this first" score
-03_train_model.py        logistic regression, decision tree, random forest (client-holdout split)
-04_evaluate_and_export.py  ranked queue + charts + Markdown report
-05_build_pdf_report.py   a shareable PDF summary
-```
+The full warehouse (~79M rows) is hosted on Hugging Face behind a click-through gate.
 
-On the bundled sample, the learned model clearly beats the hand-written rule at picking the right
-pages to review first (**Precision@50 ≈ 0.24 → 0.74**; the model number can land 0.68–0.74
-depending on library versions — the ~3x lift is the point). The notebooks compute these numbers
-live, so they always reflect the current data and environment.
+1. **Create a Hugging Face account** (free) at [huggingface.co/join](https://huggingface.co/join).
+2. **Accept the gate — in the browser, first.** Open
+   [`FlyRank/internship-warehouse`](https://huggingface.co/datasets/FlyRank/internship-warehouse),
+   fill the short form — put **`FlyRank ML Internship 2026`** as your affiliation — tick the
+   terms, **Agree**. Access is instant.
+   ⚠️ Order matters: a token created *before* you accept the gate gets `401` errors and
+   nothing tells you why.
+3. **Create a READ token**: huggingface.co → Settings → **Access Tokens** → Create new token →
+   type **Read** → name it (e.g. `internship`) → copy it somewhere safe.
+   ⚠️ Read, not Write — the track never needs more, and a leaked read token is harmless
+   to you.
+4. **Use it in notebooks**: paste it at the `getpass` prompt when a notebook asks, or store it
+   in Colab's **Secrets** panel (🔑 icon, name it `HF_TOKEN`).
+   ⚠️ **Never type the token into a code cell.** Your repo is public — a hardcoded token
+   gets committed with your notebook.
 
-**Teaching point:** the model is the capstone, but the *workflow* is the lesson —
-`problem framing → data cleaning → baseline → first model → evaluation → explainable recommendation`.
-
----
-
-## Data safety (read `DATA_USE.md`)
-
-- Only the small **anonymized** CSV ships here — no client names, domains, URLs, titles, or keywords.
-- **Never** add raw private client data to this repo or your fork. Need more data? Request an approved
-  release from your mentor — never export it yourself.
-- Don't paste client data into third-party AI tools.
-- Frame every result as **observed / measured / directional / decision-support** — never
-  "I predicted Google's algorithm."
-
-The `.gitignore` blocks datasets by default, and CI fails any commit that includes a dataset.
+**✅ Done when:** the first cells of Notebook 03 print the table row counts.
 
 ---
 
-## Assignments & schedule
+## The one-account rule (saves an hour of confusion)
 
-Weekly assignments, live events, and the capstone live on **your portal board** (your
-enrollment email has your access link). This repo is the shared technical foundation they all
-build on — and the `skills/` folder here is the instruction library for your AI assistant
-(start at [skills/README.md](skills/README.md)).
+- The GitHub account **Colab is authorized on** = the account that **owns your submission repo**.
+- The Hugging Face account **that accepted the gate** = the account **whose token you paste**.
 
-**First time with GitHub?** You need exactly four things (full walkthrough: [SETUP.md](SETUP.md)):
-1. A free account at github.com.
-2. Your own copy of this repo: **Use this template → Create a new repository** → public.
-   (One click — brings the notebooks, `work/`, and the CI leak-guard with it.)
-3. In Colab: *File → Save a copy in GitHub* → pick your copy, branch `main` (Colab handles auth).
-4. That's your submission repo — share its **github.com/you/your-repo** URL with Assignment 1
-   (never a colab.research.google.com or drive.google.com link).
-
----
-
-*Track leads: Mirza Ašćerić (ML) · Hole (data engineering). Code under MIT (see `LICENSE`); data under `DATA_USE.md`.*
+Mixing accounts is the root of almost every "it doesn't work" — one of each, used everywhere.
